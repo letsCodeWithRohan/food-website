@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in</title>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="shortcut icon" href="/static/assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body class="w-full overflow-x-hidden justify-center items-center flex h-screen relative">
+    <a href="/" class="logo absolute top-[3vw] left-[3vw]">
+        <img src="/static/assets/logo.png" class="w-[150px]">
+    </a>
+    {% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+      <div class="message border-[1px] shadow-2x shadow-slate-500 p-3 absolute right-[3vw] top-[3vw] border-b-[3px] border-[tomato]">
+          <p>{{ message }} &nbsp;<i class="bi bi-x-lg"></i></p>
+      </div>
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+    <div class="app w-max shadow-2xl shadow-slate-500 h-[90%] flex justify-center">
+        <div class="right flex flex-col p-[2vw] gap-3 justify-center w-[30vw] h-full">
+            <h2 class="text-3xl font-bold">Log In</h2>
+            <p class="text-md font-semibold text-[#747474]">Sign in quickly to access more features</p>
+            <form action="/sign_in" method="post" class="flex-col flex gap-3">
+                <div class="input-field border-[1px] border-[#747474] w-full ps-[1vw] rounded-md flex items-center gap-1">
+                    <i class="bi bi-envelope"></i>
+                    <input type="email" placeholder="abc@email.com" name="email" required class="p-3 outline-0 flex-1 border-0">
+                </div>
+                <div class="input-field border-[1px] border-[#747474] w-full px-[1vw] rounded-md flex items-center gap-1">
+                    <i class="bi bi-key"></i>
+                    <input type="password" id="pass-input" placeholder="Password" name="password" required class="p-3 outline-0 flex-1 border-0">
+                    <i class="bi bi-eye" id="eye-btn"></i>
+                </div>
+                <button type="submit" class="rounded-md text-lg bg-[tomato] text-white px-3 py-2 w-full">Log in</button>
+                <p class="text-center">Don't Have an account ? <a href="/register" class="text-[blue]">Go to Register</a></p>
+            </form>
+        </div>
+        <div class="left bg-white w-[30vw] h-full">
+            <img src="/static/assets/food-register-1.avif" class="h-full w-full object-cover object-center">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script>
+        
+
+        let tl = gsap.timeline()
+        tl.from(".left",{
+            width:"0",
+            ease: "sine",
+            duration: 1,
+            transformOrigin: "right"
+        })
+        .from(".message",{
+            right: '-600px',
+            duration: 1,
+            ease: "bounce"
+        })
+        .to(".message",{
+            right: "-400px",
+            duration:1,
+            ease:"sine",
+            delay:1
+        })
+
+        let passField = document.getElementById("pass-input")
+        let eyeBtn = document.getElementById("eye-btn")
+
+        eyeBtn.addEventListener('click',() => {
+            if (passField.type == "text") {
+                passField.type = "password";
+                eyeBtn.classList.add("bi-eye")
+                eyeBtn.classList.remove("bi-eye-slash")
+            }else{
+                passField.type = "text";
+                eyeBtn.classList.add("bi-eye-slash")
+                eyeBtn.classList.remove("bi-eye")
+            }
+        })
+    </script>
+</body>
+</html>

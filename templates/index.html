@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Food Website</title>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="shortcut icon" href="/static/assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+</head>
+<body class="w-full relative">
+    <section class="fixed bg-black/50 w-screen hidden h-[100vh] z-99"></section>
+    <div class="app min-h-screen z-50">
+        <header class="py-[20px] w-full flex justify-between items-center">
+            <img src="/static/assets/logo.png" alt="" class="logo w-[150px]" />
+            <ul class="navbar-menu flex gap-[20px] text-[#49557e] text-[18px]">
+                <li class="active">home</li>
+                <li>menu</li>
+                <li>mobile-app</li>
+                <li>contact us</li>
+            </ul>
+            <div class="navbar-right flex items-center gap-[40px]">
+                <img src="/static/assets/search_icon.png" alt="" />
+                <a href="/cart" class="navbar-search-icon relative">
+                    <img src="/static/assets/basket_icon.png" alt="" />
+                    <div class="dot absolute min-w-[10px] min-h-[10px] bg-[tomato] rounded-[5px] -top-[8px] -right-[8px]"></div>
+                </a>
+                {% if "email" not in session %}
+                <a href="/sign_in" class="bg-transparent text-[16px] duration-300 text-[#49557e] border-[1px] hover:bg-[#fff4f2] border-[tomato] py-[10px] px-[30px] rounded-[50px] cursor-pointer">sign in</a>
+                {% else %}
+                <a href="/logout"><img src="/static/assets/logout_icon.png" alt=""></a>
+                {% endif %}
+            </div>
+        </header>
+        <div style="background-image: url(/static/assets/header_img.png);" class="header h-[34vw] my-[30px] mx-auto bg-no-repeat bg-contain relative" style="background-image: url(assets/header_img.png);">
+            <div class="header-contents animate-fadeIn absolute flex flex-col items-start gap-[1.5vw] max-w-[50%] bottom-[10%] left-[6vw]">
+              <h2 class="text-[#fff] text-[max(4.5vw)] font-md">Order your favourite food here</h2>
+              <p class="text-white text-[1vw]">Choose from a diverse menu featuring a delectable array od dishes crafted with the finest ingredients and culinary expertise. Our mission is to satisfy your cravings and elevate your dining experience, one delicious meal at a time.</p>
+              <button class="text-[#747474] font-md px-[2.3vw] py-[1vw] bg-white rounded-[50px] text-[1vw]">View menu</button>
+            </div>
+          </div>
+          <div class="info flex flex-col gap-[10px] mb-3">
+            <h2 class="font-md text-[2.3vw]">Explore our menu</h2>
+            <p class="text-[#747474] w-[60%]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam tempora, neque expedita rerum pariatur ratione. Ab obcaecati velit iste illum?</p>
+          </div>
+          <div class="dishes-menu my-3 py-3 z-50 flex justify-between gap-[25px] items-center">
+            <a href="/Salad" class="flex items-center flex-col gap-[10px]">
+                <div class="food-img">
+                    <img src="/static/assets/menu_1.png" alt="">
+                </div>
+                <p class="text-[#747474]">Salad</p>
+            </a>
+            <a href="/Rolls" class="flex items-center flex-col gap-[10px]">
+                <div class="food-img">
+                    <img src="/static/assets/menu_2.png" alt="">
+                </div>
+                <p class="text-[#747474]">Rolls</p>
+            </a>
+            <a href="/Deserts" class="flex items-center flex-col gap-[10px]">
+                <div class="food-img">
+                    <img src="/static/assets/menu_3.png" alt="">
+                </div>
+                <p class="text-[#747474]">Deserts</p>
+            </a>
+            <a href="/Sandwich" class="flex items-center flex-col gap-[10px]">
+                <div class="food-img">
+                    <img src="/static/assets/menu_4.png" alt="">
+                </div>
+                <p class="text-[#747474]">Sandwich</p>
+            </a>
+            <a href="/Cake" class="flex items-center flex-col gap-[10px]">
+                <div class="food-img">
+                    <img src="/static/assets/menu_5.png" alt="">
+                </div>
+                <p class="text-[#747474]">Cake</p>
+            </a>
+            <a href="/Pure Veg" class="flex items-center flex-col gap-[10px]">
+                <div class="food-img">
+                    <img src="/static/assets/menu_6.png" alt="">
+                </div>
+                <p class="text-[#747474]">Pure Veg</p>
+            </a>
+            <a href="/Pasta" class="flex items-center flex-col gap-[10px]">
+                <div class="food-img">
+                    <img src="/static/assets/menu_7.png" alt="">
+                </div>
+                <p class="text-[#747474]">Pasta</p>
+            </a>
+            <a href="/Noodles" class="flex items-center flex-col gap-[10px]">
+                <div class="food-img">
+                    <img src="/static/assets/menu_8.png" alt="">
+                </div>
+                <p class="text-[#747474]">Noodles</p>
+            </a>
+          </div>
+          <div class="line w-full h-[2px] bg-[#747474]"></div>
+          <div class="food-display my-3">
+            <h2 class="text-[2.3vw] font-bold my-3">Top dishes near you</h2>
+            <div class="food-display-list grid my-[30px] gap-[30px]" style="row-gap: 50px;grid-template-columns: repeat(auto-fill,minmax(240px,1fr));">
+                <!-- Food Item -->
+                {% for id,name,url,cat,price,desc in data %}
+                <div class="food-item w-[100%] m-auto rounded-[15px] shadow-md duration-300 animate-fadeIn">
+                    <div class="food-item-image-container w-full rounded-t-[15px]">
+                        <img src="/static/assets/{{url}}" class="rounded-t-[15px]">
+                    </div>
+                    <div class="food-item-info m-[20px]">
+                        <div class="food-item-name-rating flex justify-between items-center mb-[10px]">
+                            <p class="text-[20px] font-semibold">{{name}}</p>
+                            <img src="/static/assets/rating_starts.png" class="w-[70px]">
+                        </div>
+                        <p class="text-[#676767] text-[12px]">{{desc}}</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-[tomato] text-[22px] font-semibold my-[10px]">₹{{price}}</p>
+                            <a href="/food/{{id}}" class="text-white bg-[tomato] w-[5vh] h-[5vh] text-[15px] flex items-center justify-center text-center rounded-full"><i class="fa-solid fa-cart-shopping cart"></i></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- Food Item over -->
+            </div>
+          </div>
+          <footer class="w-full h-max bg-slate-600 flex justify-center items-center text-white flex-col">
+            <div class="footer-container flex justify-between gap-[1vw] p-7">
+                <div class="footer-left flex-1 flex flex-col gap-3">
+                    <img src="/static/assets/logo.png" alt="" class="w-[150px]">
+                    <p class="text-justify w-[90%]">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique iste illum atque fugiat inventore unde quod nemo. Nostrum, accusamus cupiditate?</p>
+                    <div class="social-icons flex gap-3">
+                        <img src="/static/assets/facebook_icon.png" alt="" class="w-[30px] h-[30px]">
+                        <img src="/static/assets/twitter_icon.png" alt="" class="w-[30px] h-[30px]">
+                        <img src="/static/assets/linkedin_icon.png" alt="" class="w-[30px] h-[30px]">
+                    </div>
+                </div>
+                <div class="footer-center w-max pe-[5vw]">
+                    <h2 class="text-lg mb-2">COMPANY</h2>
+                    <ul>
+                        <li>Home</li>
+                        <li>About us</li>
+                        <li>Delivery</li>
+                        <li>Privacy policy</li>
+                    </ul>
+                </div>
+                <div class="footer-right w-max pe-[5vw]">
+                    <h2 class="text-lg mb-2">GET IN TOUCH</h2>
+                    <ul>
+                        <li>+91 1234567890</li>
+                        <li>info@tomato.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="line w-full h-[2px] bg-[#fff]"></div>
+            <p class="capitalize my-3">Copyright@2024 | All rights reserved for educational Purpose</p>
+          </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script>
+        let tl = gsap.timeline()
+        gsap.from(".dishes-menu a",{
+            y: "-25px",
+            opacity: 0,
+            stagger: 0.2,
+            ease: "sine"
+        })
+    </script>
+</body>
+</html>

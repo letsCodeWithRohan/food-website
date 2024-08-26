@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Food Website</title>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="shortcut icon" href="/static/assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+
+<body class="w-full h-screen flex flex-col overflow-x-hidden">
+    <div class="px-[2vw] py-[2vh] w-full flex justify-between items-center border-b-[1px] border-[#747474]">
+        <div class="left-part">
+            <img src="/static/assets/logo.png" alt="" class="logo w-[130px]" />
+            <p>Admin Panel</p>
+        </div>
+        <div class="logo flex items-center gap-[2vw]">
+            <img src="/static/assets/profile_icon.png" alt="">
+            <a href="/logout_admin"><img src="/static/assets/logout_icon.png" alt=""></a>
+        </div>
+    </div>
+    <main class="w-screen overflow-x-hidden flex flex-1 justify-between">
+        <aside class="h-[100%] sticky w-[15vw] border-r-[1px] border-[#747474] ps-3 pt-3 flex-col gap-3">
+            <a href="/admin_home" class="flex gap-2 items-center p-2">
+                <i class="bi bi-plus-circle text-[1.2rem]"></i>
+                <p>Add items</p>
+            </a>
+            <a href="/admin_items" class="flex gap-2 items-center p-2">
+                <i class="bi bi-list-ul text-[1.2rem]"></i>
+                <p>List items</p>
+            </a>
+            <a href="/admin_orders" class="flex gap-2 items-center p-2 bg-orange-300">
+                <i class="bi bi-cart text-[1.2rem]"></i>
+                <p>Orders</p>
+            </a>
+        </aside>
+        <section class="flex-1 h-full w-full p-[3vw] flex flex-col gap-3">
+            <h2 class="font-semibold text-xl">Orders</h2>
+            {% if data | length > 0 %}
+            {% for oid,photo,pname,qty,price,address,city,zip,state,country,uname,status in data %}
+            <div class="order flex p-3 border-[1px] justify-between border-[#747474]">
+                <img src="/static/assets/{{photo}}" alt="" class="w-[70px] h-[70px] object-cover object-center">
+                <div class="dets flex flex-col gap-3">
+                    <p>{{pname}}</p>
+                    <div class="info">
+                        <p class="text-lg font-semibold">{{uname}}</p>
+                        <p class="text-md">{{address}},{{city}}-{{zip}},<br>{{state}},{{country}}</p>
+                    </div>
+                </div>
+                <p>Items : {{qty}}</p>
+                <p>Price : {{price}} ₹</p>
+                <form action="/order_update/{{oid}}" class="form{{oid}}" method="post">
+                    <select name="status" class="p-2 border-[1px] border-[#747474] w-[12vw]" id="selecBtn">
+                        {% if status == 'Pending' %}
+                        <option value="Pending" selected>Pending</option>
+                        {% else %}
+                        <option value="Pending">Pending</option>
+                        {% endif %}
+                        {% if status == 'Out for delivery' %}
+                        <option value="Out for delivery" selected>Out for delivery</option>
+                        {% else %}
+                        <option value="Out for delivery">Out for delivery</option>
+                        {% endif %}
+                        {% if status == 'Delivered' %}
+                        <option selected value="Delivered">Delivered</option>
+                        {% else %}
+                        <option value="Delivered">Delivered</option>
+                        {% endif %}
+                    </select>
+                </form>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="my-3 text-xl font-semibold">No Orders Placed.</p>
+            {% endif %}
+        </section>
+    </main>
+    <script>
+        let orders = document.querySelectorAll('#selecBtn')
+
+        orders.forEach((e)=>{
+            e.addEventListener('change',()=>{
+              e.parentElement.submit();  
+        })})
+    </script>
+</body>
+
+</html>

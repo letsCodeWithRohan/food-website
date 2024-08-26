@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Cart | Food Website</title>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="shortcut icon" href="/static/assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div class="app min-h-screen flex justify-between flex-col z-50">
+    <header class="py-[20px] w-full flex justify-between items-center">
+        <a href="/">
+            <img src="/static/assets/logo.png" alt="" class="logo w-[150px]" />
+        </a>
+        <ul class="navbar-menu flex gap-[20px] text-[#49557e] text-[18px]">
+            <li class="active">home</li>
+            <li>menu</li>
+            <li>mobile-app</li>
+            <li>contact us</li>
+        </ul>
+        <div class="navbar-right flex items-center gap-[40px]">
+            <img src="/static/assets/search_icon.png" alt="" />
+            <div class="navbar-search-icon relative">
+                <img src="/static/assets/basket_icon.png" alt="" />
+                <div class="dot absolute min-w-[10px] min-h-[10px] bg-[tomato] rounded-[5px] -top-[8px] -right-[8px]"></div>
+            </div>
+            {% if "email" not in session %}
+            <a href="/sign_in" class="bg-transparent text-[16px] duration-300 text-[#49557e] border-[1px] hover:bg-[#fff4f2] border-[tomato] py-[10px] px-[30px] rounded-[50px] cursor-pointer">sign in</a>
+            {% else %}
+            <a href="/logout"><img src="/static/assets/logout_icon.png" alt=""></a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="food_info my-3 flex justify-between">
+        <div class="image-div w-[30vw] h-[30vw]">
+            <img src="/static/assets/{{data[1]}}" alt="" class="w-full h-full object-center object-cover rounded-md shadow-md">
+        </div>
+        <div class="info-div w-[40vw] flex gap-3 flex-col">
+            <h1 class="text-2xl text-[tomato] font-bold">{{data[2]}}</h1>
+            <p class="text-slate-500 text-lg">{{data[5]}}</p>
+            <p class="text-md">Category : {{data[6]}}</p>
+            <p class="text-md">Price : {{data[3]}}₹</p>
+            <form action="/edit_cart" method="post">
+                <div class="inp flex items-center gap-3">
+                    <p>Quantity</p>
+                    <input required type="number" min="1" name="quantity" value="{{data[4]}}" class="bg-slate-100 py-1 px-1 w-[60px] border-b-[1px] outline-0 border-[#000]">
+                </div>
+                <input type="text" name="cid" value="{{data[0]}}" hidden>
+                <button type="submit" class="bg-[tomato] text-white py-2 px-4 rounded-[5px] mt-4">Edit Cart</button>
+            </form>
+        </div>
+    </div>
+      <footer class="w-full h-max bg-slate-600 flex justify-center items-center text-white flex-col">
+        <div class="footer-container flex justify-between gap-[1vw] p-7">
+            <div class="footer-left flex-1 flex flex-col gap-3">
+                <img src="/static/assets/logo.png" alt="" class="w-[150px]">
+                <p class="text-justify w-[90%]">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique iste illum atque fugiat inventore unde quod nemo. Nostrum, accusamus cupiditate?</p>
+                <div class="social-icons flex gap-3">
+                    <img src="/static/assets/facebook_icon.png" alt="" class="w-[30px] h-[30px]">
+                    <img src="/static/assets/twitter_icon.png" alt="" class="w-[30px] h-[30px]">
+                    <img src="/static/assets/linkedin_icon.png" alt="" class="w-[30px] h-[30px]">
+                </div>
+            </div>
+            <div class="footer-center w-max pe-[5vw]">
+                <h2 class="text-lg mb-2">COMPANY</h2>
+                <ul>
+                    <li>Home</li>
+                    <li>About us</li>
+                    <li>Delivery</li>
+                    <li>Privacy policy</li>
+                </ul>
+            </div>
+            <div class="footer-right w-max pe-[5vw]">
+                <h2 class="text-lg mb-2">GET IN TOUCH</h2>
+                <ul>
+                    <li>+91 1234567890</li>
+                    <li>info@tomato.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="line w-full h-[2px] bg-[#fff]"></div>
+        <p class="capitalize my-3">Copyright@2024 | All rights reserved for educational Purpose</p>
+      </footer>
+</div>
+</body>
+</html>

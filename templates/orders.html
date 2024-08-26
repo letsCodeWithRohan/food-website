@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders | Food Website</title>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="shortcut icon" href="/static/assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div class="app min-h-screen flex justify-between flex-col z-50">
+    <header class="py-[20px] w-full flex justify-between items-center">
+        <a href="/">
+            <img src="/static/assets/logo.png" alt="" class="logo w-[150px]" />
+        </a>
+        <ul class="navbar-menu flex gap-[20px] text-[#49557e] text-[18px]">
+            <li class="active">home</li>
+            <li>menu</li>
+            <li>mobile-app</li>
+            <li>contact us</li>
+        </ul>
+        <div class="navbar-right flex items-center gap-[40px]">
+            <img src="/static/assets/search_icon.png" alt="" />
+            <a href="/cart" class="navbar-search-icon relative">
+                <img src="/static/assets/basket_icon.png" alt="" />
+                <div class="dot absolute min-w-[10px] min-h-[10px] bg-[tomato] rounded-[5px] -top-[8px] -right-[8px]">
+                </div>
+            </a>
+            {% if "email" not in session %}
+            <a href="/sign_in"
+                class="bg-transparent text-[16px] duration-300 text-[#49557e] border-[1px] hover:bg-[#fff4f2] border-[tomato] py-[10px] px-[30px] rounded-[50px] cursor-pointer">sign
+                in</a>
+            {% else %}
+            <a href="/orders"><i class="bi bi-truck text-[2rem] text-[#49557e]"></i></a>
+            <a href="/logout"><img src="/static/assets/logout_icon.png" alt=""></a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="orders">
+        <h1 class="text-2xl font-bold text-center border-b-[1px] border-[#ddd] pb-4">My Orders</h1>
+        {% if orders | length > 0 %}
+        {% for photo,name,price,quantity,status in orders %}
+        <div class="order flex p-3 border-[1px] mb-3 items-center justify-between border-[#747474]">
+            <img src="/static/assets/{{photo}}" alt="" class="w-[60px] h-[60px] object-center object-cover">
+            <p>{{name}}</p>
+            <p>Price : {{price}} ₹</p>
+            <p>Items : {{quantity}}</p>
+            <p><span class="text-[tomato]">▪</span> {{status}}</p>
+            <a href="/orders" class="py-2 px-4 bg-orange-200 rounded-[5px]">Track Order</a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h2 class="text-center text-xl">No Orders Placed</h2>
+        {% endif %}
+    </div>
+      <footer class="w-full h-max bg-slate-600 flex justify-center items-center text-white flex-col">
+        <div class="footer-container flex justify-between gap-[1vw] p-7">
+            <div class="footer-left flex-1 flex flex-col gap-3">
+                <img src="/static/assets/logo.png" alt="" class="w-[150px]">
+                <p class="text-justify w-[90%]">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique iste illum atque fugiat inventore unde quod nemo. Nostrum, accusamus cupiditate?</p>
+                <div class="social-icons flex gap-3">
+                    <img src="/static/assets/facebook_icon.png" alt="" class="w-[30px] h-[30px]">
+                    <img src="/static/assets/twitter_icon.png" alt="" class="w-[30px] h-[30px]">
+                    <img src="/static/assets/linkedin_icon.png" alt="" class="w-[30px] h-[30px]">
+                </div>
+            </div>
+            <div class="footer-center w-max pe-[5vw]">
+                <h2 class="text-lg mb-2">COMPANY</h2>
+                <ul>
+                    <li>Home</li>
+                    <li>About us</li>
+                    <li>Delivery</li>
+                    <li>Privacy policy</li>
+                </ul>
+            </div>
+            <div class="footer-right w-max pe-[5vw]">
+                <h2 class="text-lg mb-2">GET IN TOUCH</h2>
+                <ul>
+                    <li>+91 1234567890</li>
+                    <li>info@tomato.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="line w-full h-[2px] bg-[#fff]"></div>
+        <p class="capitalize my-3">Copyright@2024 | All rights reserved for educational Purpose</p>
+      </footer>
+</div>
+</body>
+</html>
